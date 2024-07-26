@@ -1,6 +1,7 @@
 import { matchedData, validationResult } from "express-validator";
 import { UserModel } from "../../models/users/index.mjs";
 import { comparePassword, hashPassword } from "../../utils/hash.mjs";
+import { generateToken } from "../../utils/jwt.mjs";
 
 export const userSignup = async (req, res) => {
   try {
@@ -44,7 +45,7 @@ export const userSignIn = async (req, res) => {
     if (findUser) {
       const comparePasswordResult = comparePassword(data?.password, findUser?.password);
       if (comparePasswordResult) {
-        res.send({ message: "sign in successful", data: findUser });
+        res.send({ message: "sign in successful", data: {...findUser.toJSON() , _token: generateToken(findUser?.id)} });
       } else {
         res.status(401).send({
           status: "error",
@@ -63,3 +64,9 @@ export const userSignIn = async (req, res) => {
     res.status(500).send({ message: "internal server error!" });
   }
 };
+
+
+
+export const myProfile = (req,res) => {
+  
+}
