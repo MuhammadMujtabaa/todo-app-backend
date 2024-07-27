@@ -25,3 +25,12 @@ export const userSignInValidationSchema = {
         isString: { errorMessage: "password must be a string!" },
     },
 };
+
+
+export const userForgetPasswordValidationSchema = {
+    email: {
+        notEmpty: { errorMessage: "email is required!" },
+        isString: { errorMessage: "email must be a string!" },
+        isEmail: { errorMessage: "email must be a valid email!" },
+    },
+};

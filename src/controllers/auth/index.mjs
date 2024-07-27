@@ -63,6 +63,7 @@ export const userSignIn = async (req, res) => {
           status: "error",
           statusCode: 401,
           message: "incorrect email or password!",
+          error: "incorrect email or password!",
         });
       }
     } else {
@@ -70,6 +71,7 @@ export const userSignIn = async (req, res) => {
         status: "error",
         statusCode: 401,
         message: "incorrect email or password!",
+        email: "incorrect email or password!",
       });
     }
   } catch (error) {
@@ -77,6 +79,32 @@ export const userSignIn = async (req, res) => {
   }
 };
 
+export const forgetPassword = async (req, res) => {
+  const result = validationResult(req)
+  if (!result?.isEmpty()) {
+    res
+      .status(422)
+      .send({ message: "validation failed!", error: result.array() });
+  }
+  const data = matchedData(req)
+
+  const user = await UserModel.findOne({ email: data?.email })
+  if (user) {
+
+  } else {
+    res.status(404).send({
+      status: "error",
+      message: "email not found!",
+      error: "email not found!",
+    });
+  }
+  console.log("user", user)
+
+
+  // console.log("data", data)
+  // res.send({ message: "forget password!" })
+}
+
 export const myProfile = (req, res) => {
-  res.send({ message: "profile" });
+  res.send({ message: "profile", data: req?.user });
 };
