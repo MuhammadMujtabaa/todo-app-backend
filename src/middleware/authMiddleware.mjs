@@ -2,32 +2,36 @@ import { UserModel } from "../models/users/index.mjs";
 import { verifyToken } from "../utils/jwt.mjs";
 
 export const authMiddleware = async (req, res, next) => {
-  
-  const header = req?.headers?.authorization;
-  
-  if (header && header?.startsWith("Bearer")) {
+  try {
+    const header = req.headers?.authorization;
 
-    const data = verifyToken(header?.split(" ")[1])
+    if (header?.startsWith("Bearer ")) {
+      const token = header.split(" ")[1];
+      const data = verifyToken(token);
 
-    const user = await UserModel.findById(data?.id).select("-password")
-    if (user) {
-      req.user = user
-      next();
-    } else {
-      res.send({
-        message: "unauthorized!",
-        status: "error",
-        statusCode: 401,
-        error: "user unauthorized!"
-      });
+      if (data) {
+        const user = await UserModel.findById(data.id).select("-password");
+
+        if (user) {
+          req.user = user;
+          return next();
+        }
+      }
     }
-  } else {
-    res.send({
-      message: "unauthorized!",
+
+    res.status(401).json({
+      message: "Unauthorized",
       status: "error",
       statusCode: 401,
-      error: "user unauthorized!"
+      error: "User unauthorized",
+    });
+  } catch (error) {
+    console.error("Authorization error:", error);
+    res.status(500).json({
+      message: "Internal server error",
+      status: "error",
+      statusCode: 500,
+      error: "Internal server error",
     });
   }
-
 };

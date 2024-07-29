@@ -1,60 +1,67 @@
-import { UserModel } from "../../models/users/index.mjs"
+import { UserModel } from "../../models/users/index.mjs";
 
 export const getAllUsers = async (req, res) => {
     try {
-        const data = await UserModel.find() || []
-        res.send({
+        const data = await UserModel.find() || [];
+        res.status(200).json({
             status: "success",
             statusCode: 200,
-            message: "all users",
-            data: data?.map((item) => {
-                const { _id, name, email, createdAt } = item;
-                return {
-                    _id, name, email, createdAt
-                }
-            })
-        })
+            message: "All users",
+            data: data.map(({ _id, name, email, createdAt }) => ({
+                _id, name, email, createdAt
+            }))
+        });
     } catch (error) {
-        res.status(500).send({ message: "internal server error!" });
+        console.error("Error fetching users:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
-}
-
+};
 
 export const getUserById = async (req, res) => {
     try {
-        const param = req?.params?.id;
-        const data = await UserModel.findById(param)
-        res.send({
-            status: "success",
-            statusCode: 200,
-            message: "user",
-            data
-        })
-    } catch (error) {
-        res.status(500).send({ message: "internal server error!" });
-    }
-}
+        const userId = req.params.id;
+        const data = await UserModel.findById(userId);
 
-
-export const deleteUserById = async (req, res) => {
-    try {
-        const param = req?.params?.id;
-        const data = await UserModel.findByIdAndDelete(param)
         if (data) {
-            res.send({
+            res.status(200).json({
                 status: "success",
                 statusCode: 200,
-                message: "user deleted successfully",
-            })
+                message: "User",
+                data
+            });
         } else {
-            res.status(400).send({
+            res.status(404).json({
                 status: "error",
-                statusCode: 400,
-                message: "no user found!",
+                statusCode: 404,
+                message: "User not found"
             });
         }
     } catch (error) {
-        console.log("error",error)
-        res.status(500).send({ message: "internal server error!" });
+        console.error("Error fetching user by ID:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
-}
+};
+
+export const deleteUserById = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const data = await UserModel.findByIdAndDelete(userId);
+
+        if (data) {
+            res.status(200).json({
+                status: "success",
+                statusCode: 200,
+                message: "User deleted successfully"
+            });
+        } else {
+            res.status(404).json({
+                status: "error",
+                statusCode: 404,
+                message: "User not found"
+            });
+        }
+    } catch (error) {
+        console.error("Error deleting user by ID:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};

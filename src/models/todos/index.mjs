@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 
 const todo = new Schema(
   {
-    user: {
+    userId: {
       type: Schema.ObjectId,
       ref: "User",
     },
@@ -14,6 +14,10 @@ const todo = new Schema(
     },
     dateAndTime: {
       type: Date,
+    },
+    done: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

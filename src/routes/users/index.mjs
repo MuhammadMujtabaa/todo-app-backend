@@ -3,7 +3,10 @@ import { deleteUserById, getAllUsers, getUserById } from "../../controllers/user
 
 export const userRouter = Router();
 
-userRouter.get("/", getAllUsers)
+// Route to get all users
+userRouter.get("/", getAllUsers);
+
+// Routes to get a user by ID and delete a user by ID
 userRouter.route("/:id")
-    .get(getUserById)
-    .delete(deleteUserById)
+  .get(getUserById)    // Get user by ID
+  .delete(deleteUserById); // Delete user by ID

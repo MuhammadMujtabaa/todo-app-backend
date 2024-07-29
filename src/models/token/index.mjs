@@ -13,7 +13,7 @@ const token = new Schema(
     },
     expiresAt: {
       type: Date,
-      default: () => new Date(Date.now() + 3600), // 60 seconds from now
+      default: () => new Date(Date.now() + (3600 * 1000)), // 60 seconds from now
     },
   },
   { timestamps: true }

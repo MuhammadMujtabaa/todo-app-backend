@@ -1,55 +1,107 @@
 export const userSignupValidationSchema = {
   name: {
-    notEmpty: { errorMessage: "name is required!" },
-    isString: { errorMessage: "name must be a string!" },
+    notEmpty: {
+      errorMessage: "Name is required!",
+    },
+    isString: {
+      errorMessage: "Name must be a string!",
+    },
   },
   email: {
-    notEmpty: { errorMessage: "email is required!" },
-    isString: { errorMessage: "email must be a string!" },
-    isEmail: { errorMessage: "email must be a valid email!" },
+    notEmpty: {
+      errorMessage: "Email is required!",
+    },
+    isString: {
+      errorMessage: "Email must be a string!",
+    },
+    isEmail: {
+      errorMessage: "Email must be a valid email!",
+    },
   },
   password: {
-    notEmpty: { errorMessage: "password is required!" },
-    isString: { errorMessage: "password must be a string!" },
+    notEmpty: {
+      errorMessage: "Password is required!",
+    },
+    isString: {
+      errorMessage: "Password must be a string!",
+    },
+    isLength: {
+      options: { min: 6 },
+      errorMessage: "Password must be at least 6 characters long!",
+    },
   },
 };
 
 export const userSignInValidationSchema = {
   email: {
-    notEmpty: { errorMessage: "email is required!" },
-    isString: { errorMessage: "email must be a string!" },
-    isEmail: { errorMessage: "email must be a valid email!" },
+    notEmpty: {
+      errorMessage: "Email is required!",
+    },
+    isString: {
+      errorMessage: "Email must be a string!",
+    },
+    isEmail: {
+      errorMessage: "Email must be a valid email!",
+    },
   },
   password: {
-    notEmpty: { errorMessage: "password is required!" },
-    isString: { errorMessage: "password must be a string!" },
+    notEmpty: {
+      errorMessage: "Password is required!",
+    },
+    isString: {
+      errorMessage: "Password must be a string!",
+    },
   },
 };
 
 export const userForgetPasswordValidationSchema = {
   email: {
-    notEmpty: { errorMessage: "email is required!" },
-    isString: { errorMessage: "email must be a string!" },
-    isEmail: { errorMessage: "email must be a valid email!" },
+    notEmpty: {
+      errorMessage: "Email is required!",
+    },
+    isString: {
+      errorMessage: "Email must be a string!",
+    },
+    isEmail: {
+      errorMessage: "Email must be a valid email!",
+    },
   },
 };
 
 export const userResetPasswordValidationSchema = {
   email: {
-    notEmpty: { errorMessage: "email is required!" },
-    isString: { errorMessage: "email must be a string!" },
-    isEmail: { errorMessage: "email must be a valid email!" },
+    notEmpty: {
+      errorMessage: "Email is required!",
+    },
+    isString: {
+      errorMessage: "Email must be a string!",
+    },
+    isEmail: {
+      errorMessage: "Email must be a valid email!",
+    },
   },
   token: {
-    notEmpty: { errorMessage: "token is required!" },
-    isString: { errorMessage: "token must be a string!" },
+    notEmpty: {
+      errorMessage: "Token is required!",
+    },
+    isString: {
+      errorMessage: "Token must be a string!",
+    },
     isLength: {
       options: { min: 4, max: 4 },
-      errorMessage: "Code must be between 4 characters long",
+      errorMessage: "Token must be 4 characters long!",
     },
   },
   password: {
-    notEmpty: { errorMessage: "password is required!" },
-    isString: { errorMessage: "password must be a string!" },
+    notEmpty: {
+      errorMessage: "Password is required!",
+    },
+    isString: {
+      errorMessage: "Password must be a string!",
+    },
+    isLength: {
+      options: { min: 6 },
+      errorMessage: "Password must be at least 6 characters long!",
+    },
   },
 };
