@@ -105,3 +105,30 @@ export const userResetPasswordValidationSchema = {
     },
   },
 };
+
+export const addTodoValidationSchema = {
+  title: {
+    notEmpty: {
+      errorMessage: "title is required!",
+    },
+    isString: {
+      errorMessage: "title must be a string!",
+    },
+  },
+  description: {
+    notEmpty: {
+      errorMessage: "description is required!",
+    },
+    isString: {
+      errorMessage: "description must be a string!",
+    },
+  },
+  dateAndTime: {
+    notEmpty: {
+      errorMessage: "dateAndTime is required!",
+    },
+    isString: {
+      errorMessage: "dateAndTime must be a string!",
+    },
+  },
+};
