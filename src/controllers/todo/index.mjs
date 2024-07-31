@@ -51,8 +51,8 @@ export const getTodoById = async (req, res) => {
 
     const data = await todoModel.findOne({
       _id,
-      userId
-    })
+      userId,
+    });
 
     if (data) {
       res.status(200).json({
@@ -78,7 +78,7 @@ export const deleteTodoById = async (req, res) => {
   try {
     const _id = req.params.id;
     const userId = req.user?._id;
-  
+
     const data = await todoModel.findOneAndDelete({
       userId,
       _id,
@@ -101,5 +101,50 @@ export const deleteTodoById = async (req, res) => {
   } catch (error) {
     console.error("Error while deleting Todo by ID:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const updateTodoById = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const userId = req.user?._id;
+    const errors = validationResult(req);
+
+    const checkIfExist = await todoModel.findOneAndDelete({
+      userId,
+      _id,
+    });
+
+    if(checkIfExist) {
+      const data = matchedData(req);
+      if (!errors.isEmpty()) {
+        return res
+          .status(422)
+          .json({ message: "Validation failed!", errors: errors.array() });
+      }
+      const responseData = await todoModel.findOneAndUpdate({
+        _id,
+        userId
+      },data);
+  
+      res.json({ message: "todo has been updated", data: responseData });
+    } else {
+      res.status(404).json({
+        status: "error",
+        statusCode: 404,
+        message: "Todo not found",
+      });
+    }
+
+
+  } catch (error) {
+    console.error("Signup error:", error);
+
+    if (error.name === "ValidationError") {
+      const errors = Object.values(error.errors).map((err) => err.message);
+      res.status(400).json({ message: "Validation Error", errors });
+    } else {
+      res.status(500).json({ message: "Internal server error!" });
+    }
   }
 };

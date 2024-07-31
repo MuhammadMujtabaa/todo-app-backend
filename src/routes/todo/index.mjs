@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addTodo, deleteTodoById, getTodo, getTodoById } from "../../controllers/todo/index.mjs";
+import { addTodo, deleteTodoById, getTodo, getTodoById, updateTodoById } from "../../controllers/todo/index.mjs";
 import { authMiddleware } from "../../middleware/authMiddleware.mjs";
 import { checkSchema } from "express-validator";
 import { addTodoValidationSchema } from "../../utils/validationSchemas.mjs";
@@ -16,3 +16,4 @@ todoRouter
   .route("/:id")
   .get(authMiddleware, getTodoById)
   .delete(authMiddleware, deleteTodoById)
+  .patch(authMiddleware,checkSchema(addTodoValidationSchema),getTodoById,updateTodoById)
