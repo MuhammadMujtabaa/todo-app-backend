@@ -110,23 +110,26 @@ export const updateTodoById = async (req, res) => {
     const userId = req.user?._id;
     const errors = validationResult(req);
 
-    const checkIfExist = await todoModel.findOneAndDelete({
+    const checkIfExist = await todoModel.findOne({
       userId,
       _id,
     });
 
-    if(checkIfExist) {
+    if (checkIfExist) {
       const data = matchedData(req);
       if (!errors.isEmpty()) {
         return res
           .status(422)
           .json({ message: "Validation failed!", errors: errors.array() });
       }
-      const responseData = await todoModel.findOneAndUpdate({
-        _id,
-        userId
-      },data);
-  
+      const responseData = await todoModel.findOneAndUpdate(
+        {
+          _id,
+          userId,
+        },
+        data
+      );
+
       res.json({ message: "todo has been updated", data: responseData });
     } else {
       res.status(404).json({
@@ -135,8 +138,48 @@ export const updateTodoById = async (req, res) => {
         message: "Todo not found",
       });
     }
+  } catch (error) {
+    console.error("Signup error:", error);
 
+    if (error.name === "ValidationError") {
+      const errors = Object.values(error.errors).map((err) => err.message);
+      res.status(400).json({ message: "Validation Error", errors });
+    } else {
+      res.status(500).json({ message: "Internal server error!" });
+    }
+  }
+};
 
+export const updateTodoStatus = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const userId = req.user?._id;
+
+    const checkIfExist = await todoModel.findOne({
+      userId,
+      _id,
+    });
+
+    if (checkIfExist) {
+      console.log("checkIfExist", checkIfExist?.done);
+      const responseData = await todoModel.findOneAndUpdate(
+        {
+          _id,
+          userId,
+        },
+        {
+          done: !checkIfExist?.done,
+        }
+      );
+
+      res.json({ message: "status has been updated", data: null });
+    } else {
+      res.status(404).json({
+        status: "error",
+        statusCode: 404,
+        message: "Todo not found",
+      });
+    }
   } catch (error) {
     console.error("Signup error:", error);
 
