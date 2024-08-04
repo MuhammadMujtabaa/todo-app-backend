@@ -1,8 +1,8 @@
-import express from "express";
 import dotenv from "dotenv";
-import { router } from "./src/routes/index.mjs";
-import mongoose from "mongoose";
+import express from "express";
 import helmet from "helmet"; // For basic security enhancements
+import mongoose from "mongoose";
+import { router } from "./src/routes/index.mjs";
 
 dotenv.config();
 
@@ -22,8 +22,9 @@ app.use(router);
 // Global error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send("Something broke!");
 });
+
 
 mongoose
   .connect(process.env.MONGO_URI)
