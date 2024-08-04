@@ -169,10 +169,10 @@ export const updateTodoStatus = async (req, res) => {
         },
         {
           done: !checkIfExist?.done,
-        }
-      );
+        },
+        { new: true });
 
-      res.json({ message: "status has been updated", data: null });
+      res.json({ message: "status has been updated", data: responseData });
     } else {
       res.status(404).json({
         status: "error",

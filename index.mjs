@@ -35,3 +35,18 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
+
+
+
+
+
+
+// PORT
+// MONGO_URI
+// JWT_SECRET
+// HOST
+// PASS
+// USER
+// CLOUDINARY_CLOUD_NAME
+// CLOUDINARY_API_KEY
+// CLOUDINARY_API_SECRET
