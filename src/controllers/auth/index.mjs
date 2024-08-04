@@ -114,6 +114,3 @@ export const resetPassword = async (req, res) => {
   }
 };
 
-export const myProfile = (req, res) => {
-  res.json({ message: "Profile", data: req.user });
-};
