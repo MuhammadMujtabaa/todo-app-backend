@@ -1,19 +1,17 @@
 import { Router } from "express";
 import { checkSchema } from "express-validator";
 import {
+  forgetPassword,
+  resetPassword,
+  userSignIn,
+  userSignup
+} from "../../controllers/auth/index.mjs";
+import {
   userForgetPasswordValidationSchema,
   userResetPasswordValidationSchema,
   userSignInValidationSchema,
   userSignupValidationSchema
 } from "../../utils/validationSchemas.mjs";
-import {
-  forgetPassword,
-  myProfile,
-  resetPassword,
-  userSignIn,
-  userSignup
-} from "../../controllers/auth/index.mjs";
-import { authMiddleware } from "../../middleware/authMiddleware.mjs";
 
 export const authRouter = Router();
 
@@ -29,5 +27,3 @@ authRouter.post("/forget_password", checkSchema(userForgetPasswordValidationSche
 // Reset password route
 authRouter.post("/reset_password", checkSchema(userResetPasswordValidationSchema), resetPassword);
 
-// User profile route (protected)
-authRouter.get("/my_profile", authMiddleware, myProfile);
