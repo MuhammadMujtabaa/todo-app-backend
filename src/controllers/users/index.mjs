@@ -2,14 +2,12 @@ import { UserModel } from "../../models/users/index.mjs";
 
 export const getAllUsers = async (req, res) => {
     try {
-        const data = await UserModel.find() || [];
+        const data = await UserModel.find().select("-password") || [];
         res.status(200).json({
             status: "success",
             statusCode: 200,
             message: "All users",
-            data: data.map(({ _id, name, email, createdAt }) => ({
-                _id, name, email, createdAt
-            }))
+            data: data
         });
     } catch (error) {
         console.error("Error fetching users:", error);
