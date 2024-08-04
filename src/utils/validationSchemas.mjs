@@ -134,3 +134,14 @@ export const addTodoValidationSchema = {
 };
 
 
+export const updateProfileValidationSchema = {
+  name: {
+    notEmpty: {
+      errorMessage: "Name is required!",
+    },
+    isString: {
+      errorMessage: "Name must be a string!",
+    },
+  },
+};
+
